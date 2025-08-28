@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&#10084;朝朝暮暮，岁岁年年，唯愿有你&#10084;</title>
+    <link rel="stylesheet" href="./decor.css" />
+    <style>
+        /* 保留原有样式... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Arial Rounded MT Bold", "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #ffe6f2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .tenor-gif-embed {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #e91e63;
+            margin: 25px 0 15px;
+            font-size: 24px;
+            text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.2);
+        }
+
+        p {
+            color: #c2185b;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .btn a {
+            text-decoration: none;
+            color: #fff;
+            display: inline-block;
+            width: 180px;
+            height: 180px;
+            background-color: #e91e63;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform: rotate(-45deg);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transform-origin: center;
+        }
+
+        .btn a span {
+            transform: rotate(45deg);
+        }
+
+        .btn a:hover {
+            background-color: #c2185b;
+            transform: rotate(-45deg) scale(1.1);
+            box-shadow: 0 12px 25px rgba(233, 30, 99, 0.6);
+        }
+
+        .btn a::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 500px) {
+            .btn a {
+                width: 140px;
+                height: 140px;
+                font-size: 14px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            p {
+                font-size: 16px;
+            }
+        }
+
+
+        /* 音乐控制样式 - 添加到每个页面的style区域 */
+.music-controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 50px;
+  padding: 10px 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  z-index: 1000;
+}
+
+.music-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #e91e63;
+  transition: transform 0.2s;
+}
+
+.music-btn:hover {
+  transform: scale(1.1);
+}
+
+.volume-control {
+  width: 100px;
+  cursor: pointer;
+  accent-color: #e91e63;
+}
+
+/* 新增进度条样式 */
+.progress-container {
+  width: 200px;
+  height: 6px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #e91e63;
+  border-radius: 3px;
+  width: 0%;
+}
+    </style>
+
+      <!-- 新增背景音乐代码 -->
+  <audio id="bgMusic" loop>
+    <source src="Nothing's Gonna Change My Love for You.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放
+  </audio>
+  <script>
+    // 音乐控制脚本 - 替换每个页面中原有的音频脚本
+// 音乐控制脚本 - 替换每个页面中原有的音频脚本
+window.addEventListener('load', function() {
+  const bgMusic = document.getElementById('bgMusic');
+  const musicToggle = document.getElementById('musicToggle');
+  const volumeSlider = document.getElementById('volumeSlider');
+  const progressContainer = document.getElementById('progressContainer');
+  const progressBar = document.getElementById('progressBar');
+  
+  // 设置初始音量
+  bgMusic.volume = volumeSlider.value;
+  
+  // 更新按钮图标
+  function updateButtonIcon() {
+    musicToggle.textContent = bgMusic.paused ? "▶️" : "⏸️";
+  }
+  
+  // 更新进度条
+  function updateProgress() {
+    if (bgMusic.duration) {
+      const percent = (bgMusic.currentTime / bgMusic.duration) * 100;
+      progressBar.style.width = percent + "%";
+    }
+  }
+  
+  // 尝试自动播放
+  bgMusic.play().catch(e => {
+    console.log('自动播放需要用户交互，点击播放按钮可播放音乐');
+    updateButtonIcon();
+  });
+  
+  // 播放/暂停切换
+  musicToggle.addEventListener('click', function() {
+    if (bgMusic.paused) {
+      bgMusic.play();
+    } else {
+      bgMusic.pause();
+    }
+    updateButtonIcon();
+  });
+  
+  // 音量调节
+  volumeSlider.addEventListener('input', function() {
+    bgMusic.volume = this.value;
+  });
+  
+  // 进度条控制
+  progressContainer.addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / rect.width;
+    bgMusic.currentTime = pos * bgMusic.duration;
+  });
+  
+  // 监听播放进度更新进度条
+  bgMusic.addEventListener('timeupdate', updateProgress);
+  
+  // 点击页面任意位置播放（仅首次）
+  let hasInteracted = false;
+  document.body.addEventListener('click', function playOnClick() {
+    if (!hasInteracted && bgMusic.paused) {
+      bgMusic.play().then(() => {
+        hasInteracted = true;
+        updateButtonIcon();
+      }).catch(e => console.log('播放失败:', e));
+    }
+    if (hasInteracted) {
+      document.body.removeEventListener('click', playOnClick);
+    }
+  });
+  
+  // 监听播放状态变化更新图标
+  bgMusic.addEventListener('play', updateButtonIcon);
+  bgMusic.addEventListener('pause', updateButtonIcon);
+});
+  </script>
+
+
+
+</head>
+<body>
+
+    <div class="page-header">我携星辰以赠你，仍觉星辰不如你</div>
+    <div class="decor-heart" style="top: 5%; left: 10%;">💖</div>
+    <div class="decor-heart" style="top: 90%; left: 85%;">💘</div>
+    <div class="decor-heart" style="top: 30%; left: 5%;">💝</div>
+    
+    <div class="container lace-border">
+        <span></span>
+<img src="开心.gif" alt="三生三世，永不分离">
+        <h1>从此烟雨落金城，嘉嘉与我两人行😘</h1>
+        <p>嘉嘉宝宝我爱你！三生三世，永不分离！😘</p>
+        <div class="jiajia-signature">专属嘉嘉的甜蜜承诺</div>
+    </div>
+
+    <div class="btn">
+        <a href="love.html"><span>我们的爱!!!</span></a>
+    </div>
+
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    <script>
+        // 点击产生爱心效果
+        document.addEventListener('click', function(e) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-confetti';
+            heart.textContent = '💖';
+            heart.style.left = `${e.clientX}px`;
+            heart.style.top = `${e.clientY}px`;
+            heart.style.fontSize = `${10 + Math.random() * 20}px`;
+            heart.style.animation = `fly ${1 + Math.random() * 2}s forwards`;
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fly {
+                0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+                100% { transform: translate(0, -100px) rotate(30deg); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+    <!-- 音乐控制按钮 - 添加到每个页面的body中 -->
+
+<div class="music-controls">
+  <button class="music-btn" id="musicToggle">▶️</button>
+  <div class="progress-container" id="progressContainer">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <input type="range" class="volume-control" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+</div>
+
+<div class="page-footer">山河远阔，人间星河，无一是你，无一不是你</div>
+</body>
+</html>
